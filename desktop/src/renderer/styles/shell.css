@@ -1,0 +1,154 @@
+html body {
+  background: var(--bg);
+  letter-spacing: 0;
+}
+
+html body *,
+html body *::before,
+html body *::after {
+  letter-spacing: 0 !important;
+}
+
+html body .app-shell {
+  position: relative;
+  isolation: isolate;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-areas: 'sidebar workspace';
+  background: var(--ambient-background, var(--bg));
+  padding: 0 8px 8px 0;
+  gap: 8px;
+}
+
+html body .app-shell::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0 auto 8px 0;
+  width: var(--sidebar-width);
+  background: var(--glass-nav);
+  border-right: 1px solid var(--separator);
+  box-shadow: var(--edge-highlight);
+  backdrop-filter: blur(var(--glass-role-bar-blur)) saturate(var(--glass-saturation-nav));
+  -webkit-backdrop-filter: blur(var(--glass-role-bar-blur)) saturate(var(--glass-saturation-nav));
+}
+
+html body .window-drag-region {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  right: 138px;
+  left: 0;
+  height: 44px;
+  -webkit-app-region: drag;
+  user-select: none;
+  pointer-events: auto;
+}
+
+html body .sidebar {
+  grid-area: sidebar;
+  position: relative;
+  isolation: isolate;
+  padding: 52px 10px 12px;
+  border: 0;
+  background: transparent;
+  overflow-x: hidden;
+}
+
+html body .nav-button {
+  z-index: 1;
+  min-height: 38px;
+  padding: 8px 12px;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--label-2);
+  font: var(--text-body);
+  box-shadow: none;
+}
+
+html body .nav-button svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.8;
+}
+
+html body .nav-button::before {
+  display: none;
+}
+
+html body .nav-button:hover:not(.active) {
+  background: var(--fill-1);
+}
+
+html body .nav-button.active {
+  background: var(--fill-2);
+  color: var(--label-1);
+  box-shadow: none;
+}
+
+html body .nav-button.active svg {
+  color: var(--label-1);
+}
+
+html body .sidebar-foot {
+  border-top-color: var(--separator);
+}
+
+html body .workspace {
+  grid-area: workspace;
+  position: relative;
+  min-height: 0;
+  margin: 0;
+  padding: 52px 24px 24px;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html body .workspace-view {
+  min-height: 100%;
+}
+
+html body .page {
+  animation: none;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html body .app-shell::before {
+    background: var(--glass-nav-solid);
+  }
+
+  html body .sheet,
+  html body .toast,
+  html body .mood-wheel {
+    background: var(--glass-content-solid);
+  }
+}
+
+@media (max-width: 980px) {
+  html body .app-shell {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  html body .app-shell::before {
+    width: 64px;
+  }
+
+  html body .workspace {
+    padding: 52px 16px 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  html body .app-shell {
+    padding-right: 4px;
+    gap: 4px;
+  }
+
+  html body .workspace {
+    padding: 52px 12px 20px;
+  }
+}

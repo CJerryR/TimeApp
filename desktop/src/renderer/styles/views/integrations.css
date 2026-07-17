@@ -1,0 +1,465 @@
+html body [data-view='integrations'].integrations-page {
+  width: 100%;
+  max-width: 1120px;
+  min-width: 0;
+  gap: 0;
+  letter-spacing: 0;
+}
+
+html body [data-view='integrations'] .integrations-surface {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--separator);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--glass-content) 88%, var(--surface-2));
+  box-shadow: var(--edge-highlight), 0 18px 48px color-mix(in oklab, var(--label-1) 7%, transparent);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  transition: border-color var(--dur-state) var(--ease-standard), box-shadow var(--dur-state) var(--ease-standard);
+}
+
+html body [data-view='integrations'] .integrations-surface:hover {
+  border-color: color-mix(in oklab, var(--accent) 14%, var(--separator-strong));
+}
+
+html body [data-view='integrations'] .integrations-page-head {
+  min-height: 64px;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--separator);
+  background: color-mix(in oklab, var(--surface-2) 56%, transparent);
+}
+
+html body [data-view='integrations'] .integrations-page-head > div {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 12px;
+}
+
+html body [data-view='integrations'] .integrations-page-head h1 {
+  color: var(--label-1);
+  font: var(--text-title-3);
+  letter-spacing: 0;
+}
+
+html body [data-view='integrations'] .integrations-page-head span {
+  color: var(--label-3);
+  font: var(--text-caption);
+}
+
+html body [data-view='integrations'] .integrations-workspace {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.8fr);
+}
+
+html body [data-view='integrations'] .integration-queue.card {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+html body [data-view='integrations'] .integration-sources {
+  min-width: 0;
+  border-left: 1px solid var(--separator);
+  background: color-mix(in oklab, var(--surface-2) 28%, transparent);
+}
+
+html body [data-view='integrations'] .integration-section-head {
+  display: flex;
+  min-height: 66px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--separator);
+}
+
+html body [data-view='integrations'] .integration-section-head > div {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 10px;
+}
+
+html body [data-view='integrations'] .integration-section-head h2 {
+  color: var(--label-1);
+  font: var(--text-headline);
+  letter-spacing: 0;
+}
+
+html body [data-view='integrations'] .integration-section-head span {
+  color: var(--label-3);
+  font: var(--text-caption);
+  white-space: nowrap;
+}
+
+html body [data-view='integrations'] .integration-queue-count {
+  animation: integration-count-in 160ms var(--ease-standard) both;
+}
+
+html body [data-view='integrations'] .integration-boundary {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-bottom: 1px solid var(--separator);
+  color: var(--label-3);
+  font: var(--text-footnote);
+  background: color-mix(in oklab, var(--accent-soft) 34%, transparent);
+}
+
+html body [data-view='integrations'] .integration-boundary svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: var(--accent-text);
+}
+
+html body [data-view='integrations'] .integration-queue-state {
+  min-width: 0;
+  animation: integration-state-in 190ms var(--ease-standard) both;
+}
+
+html body [data-view='integrations'] .integration-queue-state .empty {
+  min-height: 286px;
+  gap: 8px;
+  padding: 36px 16px;
+}
+
+html body [data-view='integrations'] .integration-clue-list {
+  min-width: 0;
+}
+
+html body [data-view='integrations'] .integration-clue-row {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--separator);
+  transition: background-color var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard);
+  animation: integration-row-in 180ms var(--ease-standard) both;
+}
+
+html body [data-view='integrations'] .integration-clue-row::after {
+  content: '';
+  position: absolute;
+  inset: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  pointer-events: none;
+  transition: border-color var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard);
+}
+
+html body [data-view='integrations'] .integration-clue-row:hover {
+  background: color-mix(in oklab, var(--fill-1) 72%, transparent);
+}
+
+html body [data-view='integrations'] .integration-clue-row:hover::after {
+  border-color: color-mix(in oklab, white 18%, var(--separator));
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 38%, transparent);
+}
+
+html body [data-view='integrations'] .integration-clue-main {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+html body [data-view='integrations'] .integration-clue-title {
+  color: var(--label-1);
+  font: var(--text-body-strong);
+  overflow-wrap: anywhere;
+}
+
+html body [data-view='integrations'] .integration-clue-summary {
+  color: var(--label-3);
+  font: var(--text-footnote);
+  overflow-wrap: anywhere;
+}
+
+html body [data-view='integrations'] .integration-clue-meta {
+  display: flex;
+  min-width: 96px;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--label-3);
+  font: var(--text-caption);
+  text-align: right;
+  white-space: nowrap;
+}
+
+html body [data-view='integrations'] .integration-clue-meta .risk-medium {
+  color: var(--warning);
+}
+
+html body [data-view='integrations'] .integration-clue-meta .risk-high {
+  color: var(--critical);
+}
+
+html body [data-view='integrations'] .integration-queue-footnote {
+  margin: 0;
+  padding: 10px 16px 12px;
+  color: var(--label-3);
+  font: var(--text-caption);
+}
+
+html body [data-view='integrations'] .integration-sources-head {
+  justify-content: flex-start;
+}
+
+html body [data-view='integrations'] .integration-grid.integration-source-list {
+  display: block;
+  min-width: 0;
+}
+
+html body [data-view='integrations'] .integration-source-row {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--separator);
+  transition: background-color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
+}
+
+html body [data-view='integrations'] .integration-source-row:last-child {
+  border-bottom: 0;
+}
+
+html body [data-view='integrations'] .integration-source-icon {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid var(--separator);
+  border-radius: 6px;
+  color: var(--label-3);
+  background: var(--fill-1);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 32%, transparent);
+}
+
+html body [data-view='integrations'] .integration-source-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+html body [data-view='integrations'] .integration-source-main {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+html body [data-view='integrations'] .integration-source-title {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--label-1);
+  font: var(--text-body-strong);
+}
+
+html body [data-view='integrations'] .integration-source-status {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  color: var(--label-3);
+  font: var(--text-caption);
+  font-weight: 500;
+}
+
+html body [data-view='integrations'] .integration-source-status i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--label-4);
+}
+
+html body [data-view='integrations'] .integration-source-main p {
+  margin: 0;
+  color: var(--label-3);
+  font: var(--text-footnote);
+  overflow-wrap: anywhere;
+}
+
+html body [data-view='integrations'] .integration-source-activity {
+  width: fit-content;
+  margin-top: 2px;
+  color: var(--accent-text);
+  font: var(--text-caption);
+  animation: integration-status-in 160ms var(--ease-standard) both;
+}
+
+html body [data-view='integrations'] .integration-section-head .btn,
+html body [data-view='integrations'] .integration-section-head .btn::after {
+  border-radius: 6px;
+}
+
+@keyframes integration-state-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes integration-row-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes integration-count-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes integration-status-in {
+  from {
+    opacity: 0;
+    transform: translateX(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes integration-fade-only {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 820px) {
+  html body [data-view='integrations'] .integrations-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  html body [data-view='integrations'] .integration-sources {
+    border-top: 1px solid var(--separator);
+    border-left: 0;
+  }
+
+  html body [data-view='integrations'] .integration-source-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  html body [data-view='integrations'] .integration-source-row:nth-child(odd) {
+    border-right: 1px solid var(--separator);
+  }
+}
+
+@media (max-width: 560px) {
+  html body [data-view='integrations'] .integrations-page-head > div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  html body [data-view='integrations'] .integration-section-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  html body [data-view='integrations'] .integration-section-head .btn {
+    align-self: flex-start;
+  }
+
+  html body [data-view='integrations'] .integration-sources-head {
+    min-height: 58px;
+  }
+
+  html body [data-view='integrations'] .integration-source-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  html body [data-view='integrations'] .integration-source-row:nth-child(odd) {
+    border-right: 0;
+  }
+
+  html body [data-view='integrations'] .integration-clue-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 7px;
+  }
+
+  html body [data-view='integrations'] .integration-clue-meta {
+    min-width: 0;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    text-align: left;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 420px) {
+  html body [data-view='integrations'] .integrations-page-head,
+  html body [data-view='integrations'] .integration-section-head,
+  html body [data-view='integrations'] .integration-boundary,
+  html body [data-view='integrations'] .integration-clue-row,
+  html body [data-view='integrations'] .integration-queue-footnote,
+  html body [data-view='integrations'] .integration-source-row {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  html body [data-view='integrations'] .integration-section-head > div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  html body [data-view='integrations'] .integration-boundary {
+    align-items: flex-start;
+  }
+
+  html body [data-view='integrations'] .integration-source-title {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+}
+
+html[data-reduce-motion] body [data-view='integrations'] .integration-queue-state,
+html[data-reduce-motion] body [data-view='integrations'] .integration-clue-row,
+html[data-reduce-motion] body [data-view='integrations'] .integration-queue-count,
+html[data-reduce-motion] body [data-view='integrations'] .integration-source-activity {
+  animation: integration-fade-only 90ms linear both !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body [data-view='integrations'] .integration-queue-state,
+  html body [data-view='integrations'] .integration-clue-row,
+  html body [data-view='integrations'] .integration-queue-count,
+  html body [data-view='integrations'] .integration-source-activity {
+    animation: integration-fade-only 90ms linear both !important;
+  }
+}

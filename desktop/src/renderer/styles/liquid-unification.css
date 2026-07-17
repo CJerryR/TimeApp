@@ -1,0 +1,645 @@
+/* Final visual convergence layer.
+   Page-specific files keep layout ownership; this file makes their optical
+   material, curvature and interaction language consistent. */
+
+html body {
+  background: var(--ambient-background, var(--bg));
+}
+
+html body .skip-link {
+  position: fixed;
+  z-index: 1000;
+  top: 8px;
+  left: 12px;
+  padding: 9px 14px;
+  border: 2px solid var(--focus-ring);
+  border-radius: var(--radius-control);
+  background: var(--glass-overlay-solid);
+  color: var(--label-1);
+  font: var(--text-body-strong);
+  transform: translateY(-150%);
+}
+
+html body .skip-link:focus {
+  transform: translateY(0);
+}
+
+html body .workspace {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html body .page {
+  gap: var(--space-5);
+}
+
+html body .page-head {
+  min-height: 52px;
+  padding: 0 var(--space-1);
+}
+
+html body .page-head h1 {
+  letter-spacing: -0.025em !important;
+}
+
+html body .workspace h1[tabindex='-1']:focus {
+  outline: none;
+}
+
+html body .home-stage,
+html body .chat-surface,
+html body [data-view='planner'] .legacy-calendar-panel,
+html body [data-view='memory'] .memory-surface,
+html body [data-view='integrations'] .integrations-surface,
+html body .settings-workspace,
+html body .lab-page section.card {
+  border: 1px solid var(--glass-border, var(--separator));
+  border-radius: var(--radius-sheet);
+  background: var(--content-surface);
+  box-shadow: var(--edge-highlight), var(--shadow-glass, var(--shadow-card));
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html body .home-stage {
+  border-radius: var(--radius-sheet);
+}
+
+html body .home-tasks {
+  margin-top: var(--space-3);
+  overflow: hidden;
+  border: 1px solid var(--glass-border, var(--separator));
+  border-radius: var(--radius-card);
+  background: var(--content-surface-muted);
+  box-shadow: var(--edge-highlight);
+}
+
+html body .home-task-summary {
+  border-radius: inherit;
+}
+
+html body .home-stage-head,
+html body .chat-header,
+html body [data-view='memory'] .memory-page-head,
+html body [data-view='integrations'] .integrations-page-head {
+  background: transparent;
+}
+
+html body .settings-workspace {
+  padding: var(--space-4);
+}
+
+html body .settings-nav {
+  gap: var(--space-2);
+  padding: 0 0 var(--space-4);
+}
+
+html body .settings-nav-item {
+  border-radius: var(--radius-control);
+}
+
+html body .settings-nav-item.active {
+  border-color: var(--glass-border-strong, var(--separator-strong));
+  background: var(--glass-control, var(--surface-overlay));
+  box-shadow: var(--edge-highlight), var(--shadow-control, var(--shadow-card));
+}
+
+html body .btn,
+html body .icon-btn,
+html body .pixel-pet-state-button {
+  border-radius: var(--radius-control);
+}
+
+html body .btn {
+  min-height: 38px;
+  padding-inline: 16px;
+}
+
+html body .btn.secondary,
+html body .btn.tinted,
+html body .icon-btn {
+  border-color: var(--glass-border, var(--separator));
+  background: var(--glass-control, var(--fill-2));
+  box-shadow: var(--edge-highlight);
+  backdrop-filter: blur(var(--glass-role-control-blur)) saturate(var(--glass-saturation-control));
+  -webkit-backdrop-filter: blur(var(--glass-role-control-blur)) saturate(var(--glass-saturation-control));
+}
+
+html body .btn.primary {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 8px 22px color-mix(in oklab, var(--accent) 20%, transparent);
+}
+
+html body .field,
+html body textarea.area,
+html body input.dt {
+  border-color: var(--glass-border, var(--separator));
+  border-radius: var(--radius-field);
+  background: var(--glass-control, var(--fill-1));
+  box-shadow: var(--edge-highlight);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html body .segmented {
+  border-color: var(--glass-border, var(--separator));
+  border-radius: var(--radius-pill);
+  background: var(--glass-control, var(--fill-1));
+}
+
+html body .segmented-selection {
+  border-radius: var(--radius-pill);
+  background: var(--glass-overlay, var(--surface-overlay));
+}
+
+html body .sheet,
+html body .toast,
+html body .mood-wheel {
+  border-color: var(--glass-border-strong, var(--separator-strong));
+  border-radius: var(--radius-sheet);
+  background: var(--glass-overlay, var(--surface-overlay));
+  box-shadow: var(--edge-highlight), var(--shadow-float, var(--shadow-overlay));
+  backdrop-filter: blur(var(--glass-role-popover-blur)) saturate(var(--glass-saturation-overlay));
+  -webkit-backdrop-filter: blur(var(--glass-role-popover-blur)) saturate(var(--glass-saturation-overlay));
+}
+
+/* A blurred overlay owns the optical effect; descendants stay crisp and do
+   not create costly glass-on-glass compositing. */
+html body :is(.sheet, .toast, .mood-wheel, .day-inspector)
+  :is(.btn.secondary, .btn.tinted, .icon-btn, button.chip, .segmented) {
+  background: var(--glass-control-solid);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .day-inspector {
+  background: var(--glass-overlay);
+  box-shadow: var(--edge-highlight-strong), var(--shadow-float);
+  backdrop-filter: blur(var(--glass-role-popover-blur)) saturate(var(--glass-saturation-overlay));
+  -webkit-backdrop-filter: blur(var(--glass-role-popover-blur))
+    saturate(var(--glass-saturation-overlay));
+}
+
+html body .chip {
+  border-radius: var(--radius-pill) !important;
+}
+
+html body .liquid-chat .bubble {
+  border-radius: var(--radius-field);
+}
+
+html body .liquid-chat .bubble-row.user .bubble {
+  border-bottom-right-radius: 7px;
+}
+
+html body .liquid-chat .bubble-row.companion .bubble {
+  border-bottom-left-radius: 7px;
+  background: var(--glass-control, var(--companion-bubble));
+}
+
+html body [data-view='integrations'] .integration-sources,
+html body [data-view='memory'] .memory-toolbar,
+html body .chat-composer,
+html body .home-stage-footer {
+  background: color-mix(in oklab, var(--glass-control, var(--surface-2)) 72%, transparent);
+}
+
+html body .nav-button svg,
+html body .settings-nav-item svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.7;
+}
+
+html body .nav-icon {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+}
+
+html body .nav-button.active {
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--glass-border));
+  background: color-mix(in srgb, var(--accent-soft) 58%, var(--glass-control));
+  color: var(--label-1);
+  box-shadow: var(--edge-highlight);
+}
+
+html body .nav-button.active .nav-icon {
+  color: var(--accent-text);
+}
+
+html[data-reduce-transparency] {
+  --glass-nav: var(--glass-nav-solid);
+  --glass-content: var(--glass-content-solid);
+  --glass-control: var(--glass-control-solid);
+  --glass-overlay: var(--glass-overlay-solid);
+  --glass-stage: var(--glass-stage-solid);
+  --ambient-background: linear-gradient(155deg, var(--bg-top), var(--bg-bottom));
+  --content-surface: var(--glass-content-solid);
+  --content-surface-muted: var(--glass-stage-solid);
+  --shadow-glass: 0 1px 2px color-mix(in oklab, var(--label-1) 10%, transparent);
+}
+
+html[data-reduce-transparency] body *,
+html[data-reduce-transparency] body *::before,
+html[data-reduce-transparency] body *::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  html {
+    --glass-nav: var(--glass-nav-solid);
+    --glass-content: var(--glass-content-solid);
+    --glass-control: var(--glass-control-solid);
+    --glass-overlay: var(--glass-overlay-solid);
+    --glass-stage: var(--glass-stage-solid);
+    --ambient-background: linear-gradient(155deg, var(--bg-top), var(--bg-bottom));
+    --content-surface: var(--glass-content-solid);
+    --content-surface-muted: var(--glass-stage-solid);
+  }
+
+  html body *,
+  html body *::before,
+  html body *::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+@media (pointer: coarse) {
+  html body button,
+  html body [role='button'],
+  html body input,
+  html body select {
+    min-height: var(--tap-target);
+  }
+}
+
+@media (max-width: 640px) {
+  html body .app-shell {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'workspace';
+    padding: 0 0 78px;
+    gap: 0;
+  }
+
+  html body .app-shell::before {
+    position: fixed;
+    z-index: 30;
+    inset: auto 8px 8px;
+    width: auto;
+    height: 64px;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-card);
+    background: var(--glass-nav);
+    box-shadow: var(--edge-highlight), var(--shadow-float);
+    backdrop-filter: blur(var(--glass-role-bar-blur)) saturate(var(--glass-saturation-nav));
+    -webkit-backdrop-filter: blur(var(--glass-role-bar-blur)) saturate(var(--glass-saturation-nav));
+  }
+
+  html body .sidebar {
+    position: fixed;
+    z-index: 31;
+    inset: auto 8px 8px;
+    display: grid;
+    width: auto;
+    height: 64px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 2px;
+    padding: 5px;
+    overflow: visible;
+  }
+
+  html body .sidebar-spacer {
+    display: none;
+  }
+
+  html body .sidebar-foot {
+    display: contents;
+  }
+
+  html body .sidebar-foot > .nav-button:last-child {
+    display: none;
+  }
+
+  html body .nav-button {
+    min-width: 0;
+    min-height: 54px;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px 2px;
+    border-radius: var(--radius-control);
+    text-align: center;
+  }
+
+  html body .nav-button .nav-label {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    font: 500 10px/12px var(--font-sans);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  html body .nav-button svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  html body .nav-badge {
+    position: absolute;
+    top: 2px;
+    right: calc(50% - 19px);
+    min-width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0 4px;
+    font-size: 9px;
+    transform: none;
+  }
+
+  html body .workspace {
+    padding: 52px 12px 20px;
+  }
+
+  html body .liquid-chat.chat-page {
+    height: calc(100dvh - 148px);
+    min-height: 420px;
+  }
+
+  html body .page-head {
+    padding-inline: 4px;
+  }
+}
+
+@media (max-width: 380px) {
+  html body .app-shell::before,
+  html body .sidebar {
+    right: 4px;
+    left: 4px;
+  }
+
+  html body .nav-button .nav-label {
+    font-size: 9px;
+  }
+}
+
+@media (forced-colors: active) {
+  html body,
+  html body .app-shell {
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  html body .app-shell::before,
+  html body .home-stage,
+  html body .chat-surface,
+  html body [data-view='planner'] .legacy-calendar-panel,
+  html body [data-view='memory'] .memory-surface,
+  html body [data-view='integrations'] .integrations-surface,
+  html body .settings-workspace,
+  html body .sheet,
+  html body .toast,
+  html body .mood-wheel {
+    border: 1px solid CanvasText;
+    background: Canvas;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  html body .nav-button.active,
+  html body button[aria-pressed='true'],
+  html body [role='tab'][aria-selected='true'] {
+    border: 2px solid Highlight;
+    background: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+
+  html body :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 3px;
+  }
+}
+
+@media (prefers-contrast: more) {
+  html {
+    --glass-border: var(--separator-strong);
+    --glass-border-strong: color-mix(in srgb, var(--label-1) 38%, transparent);
+    --glass-stroke: var(--separator-strong);
+    --glass-stroke-strong: color-mix(in srgb, var(--label-1) 38%, transparent);
+    --glass-nav: color-mix(in srgb, var(--glass-nav-solid) 88%, transparent);
+    --glass-control: color-mix(in srgb, var(--glass-control-solid) 90%, transparent);
+    --content-surface: color-mix(in srgb, var(--glass-content-solid) 96%, var(--label-1) 4%);
+    --label-3: var(--label-2);
+  }
+
+  html body .nav-button.active,
+  html body [role='tab'][aria-selected='true'],
+  html body button[aria-pressed='true'] {
+    border-width: 2px;
+  }
+
+  html body :focus-visible {
+    outline-width: 3px;
+    outline-offset: 3px;
+  }
+}
+
+@media (max-width: 620px) {
+  html body .page {
+    gap: var(--space-3);
+  }
+
+  html body .page-head {
+    min-height: 42px;
+  }
+
+  html body .settings-workspace {
+    padding: var(--space-3);
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html body .app-shell::before {
+    background: var(--glass-nav-solid);
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .day-inspector {
+    background: var(--glass-overlay-solid);
+  }
+
+  html body .home-stage,
+  html body .chat-surface,
+  html body [data-view='planner'] .legacy-calendar-panel,
+  html body [data-view='memory'] .memory-surface,
+  html body [data-view='integrations'] .integrations-surface,
+  html body .settings-workspace {
+    background: var(--glass-content-solid);
+  }
+}
+
+/* Adaptive and accessibility convergence. Kept after material rules so target
+   sizing and safe-area behavior remain stable in every glass fallback mode. */
+@media (max-width: 980px), (pointer: coarse) {
+  html body .nav-button,
+  html body .btn,
+  html body .icon-btn,
+  html body button.chip,
+  html body .segmented button,
+  html body .settings-nav-item,
+  html body .pixel-pet-state-button,
+  html body .memory-list-toggle,
+  html body .home-task-summary,
+  html body .task-group-head,
+  html body .mood-option,
+  html body [data-view='planner'] .planner-disclosure-head,
+  html body [data-view='planner'] .legacy-calendar-panel .seg button,
+  html body [data-view='planner'] .legacy-calendar-panel .today-btn,
+  html body [data-view='planner'] .legacy-calendar-panel .seg-mini button,
+  html body [data-view='planner'] .legacy-calendar-panel .tb-icon,
+  html body [data-view='planner'] .legacy-calendar-panel .ad-pill,
+  html body [data-view='planner'] .legacy-calendar-panel .tev,
+  html body [data-view='planner'] .legacy-calendar-panel .di-edit,
+  html body [data-view='planner'] .legacy-calendar-panel .di-delete {
+    min-height: var(--tap-target, 44px);
+  }
+
+  html body .icon-btn,
+  html body .home-chat-action,
+  html body .memory-list-toggle,
+  html body .mood-option,
+  html body .segmented button,
+  html body [data-view='planner'] .legacy-calendar-panel .seg button,
+  html body [data-view='planner'] .legacy-calendar-panel .seg-mini button,
+  html body [data-view='planner'] .legacy-calendar-panel .tb-icon {
+    min-width: var(--tap-target, 44px);
+  }
+
+  html body .field,
+  html body input.dt,
+  html body select {
+    min-height: var(--tap-target, 44px);
+  }
+
+  html body .check-dot {
+    width: var(--tap-target, 44px);
+    min-width: var(--tap-target, 44px);
+    height: var(--tap-target, 44px);
+    min-height: var(--tap-target, 44px);
+  }
+
+  html body input[type='range'].slider {
+    height: var(--tap-target, 44px);
+    background: linear-gradient(var(--fill-3), var(--fill-3)) center / 100% 4px no-repeat;
+  }
+
+  /* Keep the familiar 44 x 26 switch track while exposing a 44 x 44 target. */
+  html body .switch {
+    width: 44px;
+    height: var(--tap-target, 44px);
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  html body .switch::before {
+    content: '';
+    position: absolute;
+    inset: 9px 0;
+    border: 1px solid var(--glass-stroke);
+    border-radius: var(--radius-pill);
+    background: var(--fill-3);
+    box-shadow: var(--edge-highlight);
+  }
+
+  html body .switch::after {
+    top: 12px;
+  }
+
+  html body .switch[aria-checked='true'] {
+    background: transparent;
+  }
+
+  html body .switch[aria-checked='true']::before {
+    border-color: color-mix(in srgb, var(--accent) 78%, white 22%);
+    background: var(--accent);
+  }
+}
+
+@media (pointer: coarse) {
+  html body .icon-btn,
+  html body .home-chat-action,
+  html body .liquid-chat .chat-send-button,
+  html body .liquid-chat .chat-mood-button,
+  html body .memory-list-toggle,
+  html body .check-dot,
+  html body .mood-option,
+  html body [data-view='planner'] .legacy-calendar-panel .seg button,
+  html body [data-view='planner'] .legacy-calendar-panel .seg-mini button,
+  html body [data-view='planner'] .legacy-calendar-panel .tb-icon {
+    min-width: var(--tap-target, 44px);
+    min-height: var(--tap-target, 44px);
+  }
+}
+
+@media (max-width: 640px) {
+  html body .app-shell {
+    padding-bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+  }
+
+  html body .app-shell::before,
+  html body .sidebar {
+    bottom: max(8px, env(safe-area-inset-bottom, 0px));
+  }
+
+  html body .workspace {
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
+  }
+
+  html body .liquid-chat.chat-page {
+    height: calc(100dvh - 148px - env(safe-area-inset-bottom, 0px));
+    min-height: 0;
+  }
+
+  html body .liquid-chat .chat-stream {
+    overscroll-behavior: contain;
+    scroll-padding-bottom: var(--tap-target, 44px);
+  }
+
+  html body .liquid-chat .chat-composer {
+    min-height: calc(var(--tap-target, 44px) + 16px);
+    padding-bottom: max(8px, env(keyboard-inset-bottom, 0px));
+  }
+
+  html body .liquid-chat .chat-send-button,
+  html body .liquid-chat .chat-mood-button {
+    width: var(--tap-target, 44px);
+    min-width: var(--tap-target, 44px);
+    min-height: var(--tap-target, 44px);
+  }
+
+  html body .settings-nav-item {
+    min-height: var(--tap-target, 44px);
+  }
+}
+
+@media (forced-colors: active) and (max-width: 980px) {
+  html body .switch::before {
+    border: 1px solid ButtonText;
+    background: Canvas;
+    box-shadow: none;
+  }
+
+  html body .switch[aria-checked='true']::before {
+    border-color: Highlight;
+    background: Highlight;
+    forced-color-adjust: none;
+  }
+}

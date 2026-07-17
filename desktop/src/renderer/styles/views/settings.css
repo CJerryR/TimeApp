@@ -1,0 +1,428 @@
+.settings-page.settings-page {
+  max-width: none;
+  letter-spacing: 0;
+}
+
+.settings-page-head > div,
+.lab-page-head > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.settings-workspace {
+  min-height: 0;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.settings-nav {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--separator);
+}
+
+.settings-nav-item {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 7px 9px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: var(--label-2);
+  text-align: left;
+  transition: transform 90ms var(--ease-standard), background-color 160ms var(--ease-standard),
+    border-color 160ms var(--ease-standard), box-shadow 160ms var(--ease-standard);
+}
+
+.settings-nav-item svg {
+  width: 17px;
+  height: 17px;
+}
+
+.settings-nav-item span {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-nav-item strong {
+  color: inherit;
+  font: var(--text-footnote);
+  font-weight: 650;
+}
+
+.settings-nav-item small {
+  color: var(--label-3);
+  font: var(--text-caption);
+  overflow-wrap: anywhere;
+}
+
+.settings-nav-item:hover {
+  border-color: var(--separator);
+  background: var(--fill-1);
+}
+
+.settings-nav-item:active {
+  transform: scale(0.985);
+}
+
+.settings-nav-item.active {
+  border-color: color-mix(in oklab, var(--accent) 26%, var(--separator));
+  background: var(--surface-overlay);
+  color: var(--accent-text);
+  box-shadow: var(--edge-highlight), 0 2px 8px color-mix(in oklab, var(--label-1) 7%, transparent);
+}
+
+.settings-nav-item.active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(110deg, transparent 24%, rgba(255, 255, 255, 0.24) 50%, transparent 76%);
+  transform: translateX(110%);
+  animation: settings-highlight 220ms var(--ease-standard) both;
+  pointer-events: none;
+}
+
+.settings-content {
+  min-width: 0;
+  padding: 20px 0 0;
+}
+
+.settings-section[hidden] {
+  display: none !important;
+}
+
+.settings-section {
+  min-width: 0;
+  animation: settings-section-in 200ms var(--ease-standard) both;
+}
+
+.settings-section-head {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--separator);
+}
+
+.settings-section-head h2 {
+  margin: 0;
+  color: var(--label-1);
+  font: var(--text-title-3);
+}
+
+.settings-section-head p {
+  margin: 3px 0 0;
+  color: var(--label-3);
+  font: var(--text-footnote);
+  overflow-wrap: anywhere;
+}
+
+.settings-list .setting-row {
+  padding: 14px 2px;
+}
+
+.settings-list .setting-row:last-of-type {
+  border-bottom: 0;
+}
+
+.settings-page .setting-control {
+  min-width: 0;
+  max-width: 58%;
+}
+
+.settings-page .setting-control > svg {
+  width: 18px;
+  height: 18px;
+  color: var(--label-3);
+}
+
+.settings-page .segmented-selection,
+.settings-page .switch::after {
+  transition-duration: 200ms;
+}
+
+.settings-range-control {
+  min-width: 190px;
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-range-control output {
+  min-width: 54px;
+  color: var(--label-2);
+  font: var(--text-footnote);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.settings-action-group,
+.settings-import-actions,
+.settings-import-confirm-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.settings-expandable {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  opacity: 0;
+  transition: grid-template-rows 220ms var(--ease-standard), opacity 160ms var(--ease-standard),
+    visibility 0s linear 220ms;
+}
+
+.settings-expandable[data-open='true'] {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+.settings-expandable-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.settings-page .api-key-row,
+.settings-import-editor {
+  padding: 12px 2px 16px;
+  border-bottom: 1px solid var(--separator);
+}
+
+.settings-import-editor {
+  display: grid;
+  gap: 10px;
+}
+
+.settings-import-editor .area {
+  min-height: 132px;
+  resize: vertical;
+}
+
+.settings-feedback-region:empty {
+  display: none;
+}
+
+.settings-feedback,
+.settings-import-confirm {
+  padding: 10px 12px;
+  border: 1px solid var(--separator);
+  border-radius: 8px;
+  background: var(--fill-1);
+  animation: settings-feedback-in 180ms var(--ease-standard) both;
+}
+
+.settings-feedback.is-error {
+  border-color: color-mix(in oklab, var(--critical) 36%, var(--separator));
+  background: var(--critical-soft);
+  color: var(--critical);
+  font: var(--text-footnote);
+}
+
+.settings-import-confirm {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.settings-import-confirm > div:first-child {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.settings-import-confirm strong {
+  color: var(--label-1);
+  font: var(--text-footnote);
+  font-weight: 650;
+}
+
+.settings-import-confirm span {
+  color: var(--label-3);
+  font: var(--text-caption);
+  overflow-wrap: anywhere;
+}
+
+.settings-page .pixel-pet-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+.pixel-pet-overview {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.85fr) minmax(180px, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+}
+
+.settings-page .pixel-pet-preview-stage {
+  width: 100%;
+  min-width: 0;
+  min-height: 252px;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  border: 1px solid var(--separator);
+  border-radius: 8px;
+  background: var(--glass-content-solid);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.settings-page .pixel-pet-preview-stage .pixel-pet-preview {
+  animation: settings-pet-preview-in 180ms var(--ease-standard) both;
+}
+
+.settings-page .pixel-pet-settings-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.pixel-pet-placement {
+  color: var(--label-3);
+  font: var(--text-footnote);
+}
+
+.settings-page .pixel-pet-master-switch {
+  align-self: flex-start;
+}
+
+.settings-page .pixel-pet-control-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.settings-page .pixel-pet-control,
+.settings-page .pixel-pet-state-preview {
+  border-radius: 8px;
+  background: var(--fill-1);
+  box-shadow: var(--edge-highlight);
+}
+
+.settings-page .pixel-pet-control {
+  min-height: 76px;
+}
+
+.settings-page .pixel-pet-state-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.settings-page .pixel-pet-state-button {
+  border-radius: 7px;
+  transition: transform 90ms var(--ease-standard), border-color 160ms var(--ease-standard),
+    background-color 160ms var(--ease-standard), box-shadow 160ms var(--ease-standard);
+}
+
+@keyframes settings-section-in {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes settings-highlight {
+  from { transform: translateX(-110%); }
+  to { transform: translateX(110%); }
+}
+
+@keyframes settings-pet-preview-in {
+  from { opacity: 0; transform: translateY(4px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes settings-feedback-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 820px) {
+  .settings-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .settings-content { padding-top: 18px; }
+  .pixel-pet-overview { grid-template-columns: minmax(210px, 0.9fr) minmax(0, 1fr); }
+  .settings-page .pixel-pet-master-switch { grid-column: 2; }
+}
+
+@media (max-width: 620px) {
+  .settings-content { padding-top: 16px; }
+  .settings-page .setting-row,
+  .settings-import-confirm { align-items: stretch; flex-direction: column; }
+  .settings-page .setting-control { width: 100%; max-width: none; justify-content: flex-start; }
+  .settings-page .setting-control > .segmented,
+  .settings-page .setting-control > .settings-range-control { width: 100%; }
+  .pixel-pet-overview,
+  .settings-page .pixel-pet-control-grid { grid-template-columns: 1fr; }
+  .settings-page .pixel-pet-master-switch { grid-column: auto; width: 100%; }
+  .settings-page .pixel-pet-state-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 420px) {
+  .settings-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .settings-page .pixel-pet-state-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .settings-nav-item { min-height: 42px; }
+  .settings-content { padding-top: 14px; }
+  .settings-page .segmented { width: 100%; }
+  .settings-page .segmented button { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+  .settings-action-group,
+  .settings-page .api-key-row,
+  .settings-import-actions,
+  .settings-import-confirm-actions { width: 100%; flex-direction: column; align-items: stretch; }
+  .settings-action-group .btn,
+  .settings-page .api-key-row .btn,
+  .settings-import-actions .btn,
+  .settings-import-confirm-actions .btn { width: 100%; height: auto; white-space: normal; }
+  .settings-range-control { min-width: 0; width: 100%; grid-template-columns: 1fr; }
+  .settings-range-control input.slider { width: 100%; }
+  .settings-range-control output { text-align: left; }
+}
+
+html[data-reduce-motion] .settings-page .settings-section,
+html[data-reduce-motion] .settings-page .pixel-pet-preview,
+html[data-reduce-motion] .settings-page .settings-feedback,
+html[data-reduce-motion] .settings-page .settings-import-confirm {
+  animation: settings-fade 100ms linear both !important;
+}
+
+html[data-reduce-motion] .settings-page .settings-nav-item,
+html[data-reduce-motion] .settings-page .settings-expandable,
+html[data-reduce-motion] .settings-page .segmented-selection,
+html[data-reduce-motion] .settings-page .switch::after {
+  transition-duration: 0ms !important;
+}
+
+html[data-reduce-motion] .settings-page .settings-nav-item.active::after { display: none; }
+
+@keyframes settings-fade { from { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .settings-page .settings-section,
+  .settings-page .pixel-pet-preview,
+  .settings-page .settings-feedback,
+  .settings-page .settings-import-confirm { animation: settings-fade 100ms linear both !important; }
+  .settings-page .settings-nav-item,
+  .settings-page .settings-expandable,
+  .settings-page .segmented-selection,
+  .settings-page .switch::after { transition-duration: 0ms !important; }
+  .settings-page .settings-nav-item.active::after { display: none; }
+}

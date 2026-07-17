@@ -1,0 +1,14 @@
+{
+  "id": "ruohan-pixel-v1",
+  "displayName": "若涵 · 像素桌宠",
+  "kind": "pixel-sprite",
+  "modelKind": "pixel-sprite",
+  "renderEngine": "pixel-sprite",
+  "manifest": "manifest.json",
+  "manifestPath": "manifest.json",
+  "sprite": "sprite.png",
+  "preview": "preview.png",
+  "ageGate": "adult",
+  "states": ["idle", "focus", "happy", "worried", "asking", "sleeping", "tap", "drag"],
+  "placements": ["taskbar", "window-seat", "free"]
+}

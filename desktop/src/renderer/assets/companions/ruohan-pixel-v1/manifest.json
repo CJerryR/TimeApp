@@ -1,0 +1,45 @@
+{
+  "schema": "timemate.pixel-sprite.v1",
+  "version": 1,
+  "id": "ruohan-pixel-v1",
+  "displayName": "若涵 · 像素桌宠",
+  "kind": "pixel-sprite",
+  "modelKind": "pixel-sprite",
+  "renderEngine": "pixel-sprite",
+  "logicalSize": [48, 64],
+  "paletteTarget": 40,
+  "sprite": {
+    "file": "sprite.png",
+    "size": [384, 192],
+    "columns": 8,
+    "rows": 3
+  },
+  "stateOrder": ["idle", "focus", "happy", "worried", "asking", "sleeping", "tap", "drag"],
+  "placements": {
+    "taskbar": {
+      "row": 0,
+      "anchor": { "type": "baseline", "point": [24, 63], "seat": [24, 49] }
+    },
+    "window-seat": {
+      "row": 1,
+      "anchor": { "type": "seat", "point": [24, 49], "foot": [24, 63] }
+    },
+    "free": {
+      "row": 2,
+      "anchor": { "type": "foot", "point": [24, 63] }
+    }
+  },
+  "sizes": { "small": 2, "standard": 3, "large": 4 },
+  "source": "sprite.png",
+  "rendering": "nearest-neighbor",
+  "transparentCorners": true,
+  "provenance": {
+    "sourceReferenceSha256": "cbdd7ddef6581de8f4cd82d7521d4b22fe90408423d21f5eee26087a8f728907",
+    "sourceRole": "archived standing identity reference",
+    "method": "deterministic local raster pixelization from an existing Ruohan PNG reference",
+    "frameSize": [48, 64],
+    "palette": "Target at most 40 colors per frame; observed 27-32 RGBA values including transparency.",
+    "alpha": "Binary alpha only (0 or 255); transparent corners; no baked background.",
+    "notes": "Two built-in image generation attempts failed to connect and produced no asset. No retained generator script was found, so exact bit-level regeneration is not claimed. Source and output hashes are documented externally and remain verifiable."
+  }
+}

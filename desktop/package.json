@@ -1,0 +1,30 @@
+{
+  "name": "timemate-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TimeMate local-first desktop companion.",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "start": "npm run build:main && electron .",
+    "build": "npm run typecheck && npm run build:main && vite build",
+    "build:main": "tsc -p tsconfig.main.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "smoke": "npm run build && node scripts/smoke.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sql.js": "^1.10.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^33.2.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7"
+  }
+}

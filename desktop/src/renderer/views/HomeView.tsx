@@ -1,10 +1,19 @@
-import { useEffect, useState, type CSSProperties } from 'react';
-import { ArrowRight, CircleCheck, CirclePause, CirclePlay, MessageCircle, Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import {
+  ArrowRight,
+  ChevronDown,
+  CircleCheck,
+  CirclePause,
+  CirclePlay,
+  ListTodo,
+  MessageCircle,
+  Sparkles
+} from 'lucide-react';
 import type { ActivityStatus, AppSnapshot, PetPlacementState } from '../../shared/types';
 import { derivePetState } from '../../shared/pet';
 import { RUOHAN_PIXEL_MODEL } from '../pet-model';
-import { PixelPetPreview } from '../pixel/PixelPetPreview';
-import { Button, Chip, CheckDot, SectionHeader, Sheet, cls } from '../ui/kit';
+import { PixelSprite } from '../pixel/PixelSprite';
+import { Button, Chip, CheckDot, Sheet, cls } from '../ui/kit';
 import {
   MOODS,
   activityStatusText,
@@ -14,6 +23,7 @@ import {
   keyTasks,
   timerDigits
 } from '../lib/format';
+import '../styles/views/home.css';
 
 export function HomeView({
   snapshot,
@@ -36,11 +46,13 @@ export function HomeView({
 }) {
   const [activityText, setActivityText] = useState('');
   const [wrapOpen, setWrapOpen] = useState(false);
+  const [tasksOpen, setTasksOpen] = useState(false);
+  const [completingTaskId, setCompletingTaskId] = useState<string>();
 
   const current = snapshot.currentActivity;
   const companionState = derivePetState(snapshot);
   const petOnline = snapshot.settings.pet.enabled;
-  const petWindowSeatActive = petPlacement?.placement === 'window-seat' && petPlacement.visible;
+  const petWindowSeatActive = petPlacement?.placement === 'window-seat';
 
   const focusList = keyTasks(snapshot.tasks);
   const doneToday = doneTodayCount(snapshot.tasks);
@@ -64,7 +76,13 @@ export function HomeView({
         y: rect.y,
         width: rect.width,
         height: rect.height,
-        visible: rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.right > 0 && rect.top < window.innerHeight && rect.left < window.innerWidth
+        visible:
+          rect.width > 0 &&
+          rect.height > 0 &&
+          rect.bottom > 0 &&
+          rect.right > 0 &&
+          rect.top < window.innerHeight &&
+          rect.left < window.innerWidth
       });
     };
     const scheduleReport = () => {
@@ -104,174 +122,190 @@ export function HomeView({
     await run(() => window.timeMate.endActivity(status));
   }
 
+  async function completeTask(taskId: string) {
+    if (busy || completingTaskId) return;
+    setCompletingTaskId(taskId);
+    const reducedMotion =
+      document.documentElement.hasAttribute('data-reduce-motion') || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reducedMotion) {
+      await new Promise<void>((resolve) => window.setTimeout(resolve, 160));
+    }
+    try {
+      await run(() => window.timeMate.setTaskStatus(taskId, 'done'));
+    } finally {
+      setCompletingTaskId(undefined);
+    }
+  }
+
   return (
-    <div className="page" data-view="home">
-      <div className="page-head">
+    <div className="page home-page" data-view="home">
+      <div className="page-head home-page-head">
         <h1 tabIndex={-1}>{greeting()}</h1>
         <span className="page-date">{dayHeading(new Date())}</span>
       </div>
 
-      <div className="home-grid">
-        <div className="home-main">
-          {/* ---- 现在 · 小计时器 ---- */}
-          <section className="card now-card" data-now-card="true">
-            <SectionHeader title="现在" aside={current && <Chip tone="accent">{activityStatusText(current)}</Chip>} />
-            {current ? (
-              <>
-                <h2 className="now-title">{current.title}</h2>
-                <div className="now-timer">
-                  <span className="timer-digits">{timerDigits(current.startAt)}</span>
-                </div>
-                <div className="now-meta">
-                  {current.tags.length > 0 && <Chip size="sm">{current.tags.join(' · ')}</Chip>}
-                  {(current.mood ?? mood) && (
-                    <Chip size="sm" tone="companion">
-                      {current.mood ?? mood}
-                    </Chip>
-                  )}
-                </div>
-                <div className="now-actions">
-                  <Button variant="primary" icon={<CircleCheck />} loading={busy} onClick={() => setWrapOpen(true)}>
-                    完成这段
-                  </Button>
-                  <Button variant="secondary" icon={<CirclePause />} disabled={busy} onClick={() => setWrapOpen(true)}>
-                    被打断了
-                  </Button>
-                </div>
-              </>
-            ) : (
-              <>
-                <p className="now-idle-lede">先定下这一小段。</p>
-                <p className="now-idle-sub">写下现在要做的事,回车就开始计时。</p>
-                <div className="now-idle-row">
-                  <label className="field lg">
-                    <Sparkles />
-                    <input
-                      value={activityText}
-                      placeholder="写作业 / 飞书开会 / 摸鱼 / 睡不着"
-                      aria-label="现在要做什么"
-                      onChange={(event) => setActivityText(event.target.value)}
-                      onKeyDown={(event) => {
-                        if (event.key === 'Enter') void startActivity();
-                      }}
-                    />
-                  </label>
-                  <Button variant="primary" icon={<CirclePlay />} loading={busy} disabled={!activityText.trim()} onClick={() => void startActivity()}>
-                    开始
-                  </Button>
-                </div>
-              </>
-            )}
-          </section>
-
-          {/* ---- 今日自由度 ---- */}
-          <section className={cls('card', 'freedom-card', snapshot.freedom.tone)}>
-            <span className="freedom-dot" aria-hidden="true" />
-            <span className="freedom-text">{snapshot.freedom.text}</span>
-            {snapshot.freedom.urgentOpenCount > 0 && (
-              <Chip size="sm" tone="critical">
-                {snapshot.freedom.urgentOpenCount} 件紧急
-              </Chip>
-            )}
-            <Button variant="plain" size="sm" icon={<ArrowRight />} onClick={goPlanner}>
-              去规划
-            </Button>
-          </section>
-
-          {/* ---- 要紧的事(任务完成情况) ---- */}
-          <section className="card">
-            <SectionHeader
-              title="要紧的事"
-              aside={
-                <div className="focus-progress" style={{ width: 160 }}>
-                  <div className="bar">
-                    <span style={{ width: `${Math.round(focusRatio * 100)}%` }} />
-                  </div>
-                  <span className="ratio">
-                    {doneToday}/{focusTotal}
-                  </span>
-                </div>
-              }
-            />
-            {focusList.length > 0 ? (
-              <div className="list">
-                {focusList.slice(0, 4).map((task) => (
-                  <div className="list-row" key={task.id}>
-                    <CheckDot
-                      checked={false}
-                      label={`完成 ${task.title}`}
-                      onToggle={() => void run(() => window.timeMate.setTaskStatus(task.id, 'done'))}
-                    />
-                    <div className="row-main">
-                      <span className="row-title">{task.title}</span>
-                    </div>
-                    {task.priority === 'urgent' && (
-                      <Chip size="sm" tone="critical">
-                        紧急
-                      </Chip>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="setting-sub" style={{ padding: '4px 2px 6px' }}>
-                {doneToday > 0 ? '今天要紧的都收住了,剩下的时间是你的。' : '今天还没有要紧的事,想安排就去规划页。'}
-              </p>
-            )}
-          </section>
-        </div>
-
-        {/* ---- 若涵的陪伴位（anchor 协议区，属性与上报语义保持不变） ---- */}
-        <section className="card companion-card">
-          <div className="companion-head">
-            <h3>若涵在</h3>
-            <Button variant="plain" size="sm" icon={<MessageCircle />} onClick={goChat}>
-              找她说说
-            </Button>
-          </div>
-          <div
-            className={cls('pet-seat-anchor', petWindowSeatActive && 'pet-window-seat-active')}
-            id="pet-seat-anchor"
-            data-pet-seat-anchor="true"
-            data-model-id={RUOHAN_PIXEL_MODEL.id}
-            data-pet-placement={petPlacement?.placement ?? 'taskbar'}
-          >
-            <div className="room-sofa" aria-hidden="true" />
-            <div
-              className="home-companion-portrait"
-              aria-label="若涵像素桌宠预览"
-              aria-hidden={petWindowSeatActive}
-              style={{ opacity: petWindowSeatActive ? 0 : 1 } as CSSProperties}
-            >
-              <PixelPetPreview
-                state={companionState}
-                placement="window-seat"
-                size={RUOHAN_PIXEL_MODEL.manifest.sizes.standard}
-                theme={snapshot.settings.appearance.colorScheme}
-                motionEnabled={snapshot.settings.characterMotionEnabled && !snapshot.settings.reducedMotion}
-              />
+      <main className="home-continuum">
+        <section className={cls('home-stage', current ? 'is-active' : 'is-idle')} data-now-card="true">
+          <div className="home-stage-head">
+            <div className="home-stage-status">
+              <span className="home-stage-kicker">现在</span>
+              {current && <span className="home-stage-state">{activityStatusText(current)}</span>}
             </div>
-            <span className={cls('online-pill', petOnline && 'active')} style={{ opacity: petWindowSeatActive ? 0 : 1 } as CSSProperties}>
-              {petOnline ? '在这里陪你' : '桌宠已隐藏'}
-            </span>
+            <Button variant="plain" size="sm" icon={<MessageCircle />} onClick={goChat} className="home-chat-action">
+              和若涵聊聊
+            </Button>
           </div>
-          <div className="companion-whisper">
-            {current ? `我在这儿，陪你把「${current.title}」这一段守住。` : '我在。先说一句现在要做什么就好。'}
+
+          <div className="home-stage-focus">
+            <div className="home-activity-panel">
+              <div className="home-activity-transition" key={current?.id ?? 'idle'}>
+                {current ? (
+                  <>
+                    <h2 className="home-activity-title">{current.title}</h2>
+                    <span className="home-timer" aria-label={`已进行 ${timerDigits(current.startAt)}`}>
+                      {timerDigits(current.startAt)}
+                    </span>
+                    <div className="home-activity-meta">
+                      {current.tags.length > 0 && <span>{current.tags.join(' · ')}</span>}
+                      {(current.mood ?? mood) && <span>{current.mood ?? mood}</span>}
+                    </div>
+                    <div className="home-activity-actions">
+                      <Button variant="primary" icon={<CircleCheck />} loading={busy} onClick={() => setWrapOpen(true)}>
+                        完成这段
+                      </Button>
+                      <Button variant="secondary" icon={<CirclePause />} disabled={busy} onClick={() => setWrapOpen(true)}>
+                        被打断了
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <h2 className="home-activity-title">先定下这一小段</h2>
+                    <div className="home-start-row">
+                      <label className="field lg home-start-field">
+                        <Sparkles />
+                        <input
+                          value={activityText}
+                          placeholder="现在要做什么"
+                          aria-label="现在要做什么"
+                          onChange={(event) => setActivityText(event.target.value)}
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter') void startActivity();
+                          }}
+                        />
+                      </label>
+                      <Button
+                        variant="primary"
+                        icon={<CirclePlay />}
+                        loading={busy}
+                        disabled={!activityText.trim()}
+                        onClick={() => void startActivity()}
+                      >
+                        开始
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <div
+              className={cls('pet-seat-anchor', 'home-pet-seat', petWindowSeatActive && 'pet-window-seat-active')}
+              id="pet-seat-anchor"
+              data-pet-seat-anchor="true"
+              data-model-id={RUOHAN_PIXEL_MODEL.id}
+              data-pet-placement={petPlacement?.placement ?? 'taskbar'}
+            >
+              <div className="room-sofa" aria-hidden="true" />
+              {!petWindowSeatActive && (
+                <>
+                  <div className="home-companion-portrait" aria-label="若涵像素桌宠预览">
+                    <PixelSprite
+                      model={RUOHAN_PIXEL_MODEL}
+                      state={companionState}
+                      placement="window-seat"
+                      size={RUOHAN_PIXEL_MODEL.manifest.sizes.standard}
+                      motionEnabled={snapshot.settings.characterMotionEnabled && !snapshot.settings.reducedMotion}
+                      className="home-pixel-sprite"
+                    />
+                  </div>
+                  <span className={cls('online-pill', petOnline && 'active')}>
+                    {petOnline ? '若涵在线' : '桌宠已隐藏'}
+                  </span>
+                </>
+              )}
+            </div>
           </div>
-          <div className="companion-foot">
-            <span className="hint">{petWindowSeatActive ? '若涵正坐在窗口座位上，这里给她留着。' : '想聊两句就去对话页，我一直在。'}</span>
+
+          <div className="home-stage-footer">
+            <p className="home-companion-line">
+              {current ? `我陪你把「${current.title}」这一段守住。` : '我在。先从眼前这一件开始。'}
+            </p>
+            <div className={cls('home-freedom-line', snapshot.freedom.tone)}>
+              <span className="home-freedom-dot" aria-hidden="true" />
+              <span className="home-freedom-text">{snapshot.freedom.text}</span>
+              {snapshot.freedom.urgentOpenCount > 0 && (
+                <span className="home-urgent-count">{snapshot.freedom.urgentOpenCount} 件紧急</span>
+              )}
+              <Button variant="plain" size="sm" icon={<ArrowRight />} onClick={goPlanner}>
+                规划
+              </Button>
+            </div>
           </div>
         </section>
-      </div>
 
-      {/* ---- 轻收尾 Sheet ---- */}
+        <section className={cls('home-tasks', tasksOpen && 'is-open')} aria-label="要紧的事">
+          <button
+            type="button"
+            className="home-task-summary"
+            aria-expanded={tasksOpen}
+            aria-controls="home-task-list"
+            onClick={() => setTasksOpen((open) => !open)}
+          >
+            <ListTodo aria-hidden="true" />
+            <span className="home-task-summary-title">要紧的事</span>
+            <span className="home-task-progress" aria-hidden="true">
+              <span style={{ transform: `scaleX(${focusRatio})` }} />
+            </span>
+            <span className="home-task-ratio">
+              {doneToday}/{focusTotal}
+            </span>
+            <ChevronDown className="home-task-chevron" aria-hidden="true" />
+          </button>
+
+          {tasksOpen && (
+            <div className="home-task-panel" id="home-task-list">
+              {focusList.length > 0 ? (
+                <div className="home-task-list">
+                  {focusList.slice(0, 4).map((task) => (
+                    <div
+                      className={cls('home-task-row', completingTaskId === task.id && 'is-completing')}
+                      key={task.id}
+                    >
+                      <CheckDot checked={false} label={`完成 ${task.title}`} onToggle={() => void completeTask(task.id)} />
+                      <span className="home-task-title">{task.title}</span>
+                      {task.priority === 'urgent' && <span className="home-task-priority">紧急</span>}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="home-task-empty">{doneToday > 0 ? '今天要紧的都完成了。' : '今天还没有要紧的事。'}</p>
+              )}
+              <Button variant="plain" size="sm" icon={<ArrowRight />} onClick={goPlanner} className="home-task-planner">
+                打开规划
+              </Button>
+            </div>
+          )}
+        </section>
+      </main>
+
       <Sheet
         open={wrapOpen}
         title="这一段怎么样?"
         subtitle="轻轻收个尾就好,不想说也没关系(Esc 直接关)。"
         onClose={() => void finishActivity('unconfirmed')}
       >
-        <div className="now-actions" style={{ flexWrap: 'wrap' }}>
+        <div className="home-wrap-actions">
           <Button variant="primary" icon={<CircleCheck />} onClick={() => void finishActivity('done')}>
             完成了
           </Button>
@@ -286,10 +320,16 @@ export function HomeView({
           </Button>
         </div>
         <div>
-          <p className="setting-sub" style={{ marginBottom: 8 }}>顺手记一下现在的心情(可选,下一段开始时她会记得):</p>
-          <div className="now-meta">
+          <p className="home-wrap-label">现在的心情</p>
+          <div className="home-mood-list">
             {MOODS.map((item) => (
-              <Chip key={item} size="sm" tone={mood === item ? 'accent' : 'neutral'} onClick={() => setMood(mood === item ? undefined : item)}>
+              <Chip
+                key={item}
+                size="sm"
+                tone={mood === item ? 'accent' : 'neutral'}
+                selected={mood === item}
+                onClick={() => setMood(mood === item ? undefined : item)}
+              >
                 {item}
               </Chip>
             ))}

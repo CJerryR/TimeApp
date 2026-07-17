@@ -1,0 +1,236 @@
+html body .nav-selection,
+html body .segmented-selection {
+  transition: transform var(--dur-state) var(--ease-standard), height var(--dur-state) var(--ease-standard),
+    background-color var(--dur-state) var(--ease-standard), border-color var(--dur-state) var(--ease-standard);
+  will-change: transform;
+}
+
+html body .workspace-view {
+  animation: tm-page-enter var(--dur-state) var(--ease-standard) both;
+}
+
+html body .legacy-calendar-panel .seg button,
+html body .legacy-calendar-panel .seg .pill,
+html body .legacy-calendar-panel .day-inspector,
+html body .legacy-calendar-panel .ym {
+  transition-duration: 280ms;
+}
+
+html body .workspace-view[data-direction='forward'] {
+  --page-offset: 6px;
+}
+
+html body .workspace-view[data-direction='backward'] {
+  --page-offset: -6px;
+}
+
+html body .btn,
+html body .icon-btn,
+html body button.chip,
+html body .nav-button,
+html body .mood-option,
+html body .pixel-pet-state-button,
+html body .check-dot {
+  transition-duration: var(--dur-fast);
+  transition-timing-function: var(--ease-standard);
+}
+
+html body .btn:hover:not(:disabled),
+html body .icon-btn:hover:not(:disabled),
+html body button.chip:hover:not(:disabled),
+html body .mood-option:hover,
+html body .pixel-pet-state-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+html body .btn:active:not(:disabled),
+html body .icon-btn:active:not(:disabled),
+html body button.chip:active:not(:disabled),
+html body .nav-button:active:not(:disabled),
+html body .pixel-pet-state-button:active:not(:disabled),
+html body .check-dot:active:not(:disabled) {
+  transform: scale(0.985);
+  transition-duration: var(--dur-press);
+}
+
+html body .mood-option:hover {
+  transform: var(--pos) translateY(-1px) scale(1.03) !important;
+}
+
+html body .mood-option:active {
+  transform: var(--pos) scale(0.985) !important;
+  transition-duration: var(--dur-press);
+}
+
+html body .sheet-scrim {
+  animation: tm-fade var(--dur-fast) var(--ease-standard) both;
+}
+
+html body .sheet {
+  animation: tm-sheet-enter var(--dur-sheet) var(--ease-standard) both;
+}
+
+html body .toast {
+  animation: tm-toast-enter var(--dur-state) var(--ease-standard) both;
+}
+
+html body .mood-wheel {
+  animation: tm-wheel-enter var(--dur-state) var(--ease-standard) both;
+}
+
+html body .btn::after,
+html body .nav-selection::after,
+html body .sheet::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.34) 48%, transparent 76%);
+  transform: translateX(-115%);
+  pointer-events: none;
+}
+
+html body .btn:hover::after,
+html body .sidebar:hover .nav-selection::after,
+html body .sheet:focus-within::after {
+  transform: translateX(115%);
+  transition: transform var(--dur-state) var(--ease-standard);
+}
+
+@keyframes tm-page-enter {
+  from {
+    opacity: 0;
+    transform: translateX(var(--page-offset, 6px));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes tm-sheet-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tm-toast-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+}
+
+@keyframes tm-wheel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+}
+
+@keyframes tm-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+html[data-reduce-motion] body .workspace-view,
+html[data-reduce-motion] body .workspace-view .page,
+html[data-reduce-motion] body .workspace-view [data-view],
+html[data-reduce-motion] body .sheet,
+html[data-reduce-motion] body .toast,
+html[data-reduce-motion] body .mood-wheel,
+html[data-reduce-motion] body .sheet-scrim {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+html[data-reduce-motion] body .workspace-view *,
+html[data-reduce-motion] body .spin {
+  animation: none !important;
+  animation-delay: 0ms !important;
+}
+
+html[data-reduce-motion] body .nav-selection,
+html[data-reduce-motion] body .segmented-selection,
+html[data-reduce-motion] body .switch::after {
+  transition-duration: 0ms !important;
+}
+
+html[data-reduce-motion] body .btn:hover,
+html[data-reduce-motion] body .btn:active,
+html[data-reduce-motion] body .icon-btn:hover,
+html[data-reduce-motion] body .icon-btn:active,
+html[data-reduce-motion] body button.chip:hover,
+html[data-reduce-motion] body button.chip:active,
+html[data-reduce-motion] body .nav-button:active,
+html[data-reduce-motion] body .pixel-pet-state-button:hover,
+html[data-reduce-motion] body .pixel-pet-state-button:active {
+  transform: none !important;
+}
+
+html[data-reduce-motion] body .btn::after,
+html[data-reduce-motion] body .nav-selection::after,
+html[data-reduce-motion] body .sheet::after {
+  display: none;
+}
+
+html[data-reduce-motion] body .mood-option:hover,
+html[data-reduce-motion] body .mood-option:active {
+  transform: var(--pos) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body .workspace-view,
+  html body .workspace-view .page,
+  html body .workspace-view [data-view],
+  html body .sheet,
+  html body .toast,
+  html body .mood-wheel,
+  html body .sheet-scrim {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  html body .workspace-view *,
+  html body .spin {
+    animation: none !important;
+    animation-delay: 0ms !important;
+  }
+
+  html body .nav-selection,
+  html body .segmented-selection,
+  html body .switch::after {
+    transition-duration: 0ms !important;
+  }
+
+  html body .btn:hover,
+  html body .btn:active,
+  html body .icon-btn:hover,
+  html body .icon-btn:active,
+  html body button.chip:hover,
+  html body button.chip:active,
+  html body .nav-button:active,
+  html body .pixel-pet-state-button:hover,
+  html body .pixel-pet-state-button:active {
+    transform: none !important;
+  }
+
+  html body .btn::after,
+  html body .nav-selection::after,
+  html body .sheet::after {
+    display: none;
+  }
+
+  html body .mood-option:hover,
+  html body .mood-option:active {
+    transform: var(--pos) !important;
+  }
+}

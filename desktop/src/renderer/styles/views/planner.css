@@ -1,0 +1,795 @@
+[data-view='planner'] {
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+[data-view='planner'] .planner-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: var(--space-5);
+  min-width: 0;
+}
+
+[data-view='planner'] .planner-disclosure {
+  padding: 0;
+  overflow: clip;
+}
+
+[data-view='planner'] .planner-disclosure-head {
+  width: 100%;
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 20px;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-1);
+  color: var(--label-1);
+  text-align: left;
+}
+
+[data-view='planner'] .planner-disclosure-title {
+  font: var(--text-headline);
+}
+
+[data-view='planner'] .planner-disclosure-meta {
+  min-width: 0;
+  color: var(--label-3);
+  font: var(--text-footnote);
+  white-space: nowrap;
+}
+
+[data-view='planner'] .planner-disclosure-chevron {
+  width: 18px;
+  height: 18px;
+  color: var(--label-3);
+  transition: transform 200ms var(--ease-standard);
+}
+
+[data-view='planner'] .planner-disclosure.is-open .planner-disclosure-chevron {
+  transform: rotate(180deg);
+}
+
+[data-view='planner'] .planner-disclosure-shell,
+[data-view='planner'] .task-done-shell {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows 220ms var(--ease-standard), visibility 0s linear 220ms;
+}
+
+[data-view='planner'] .planner-disclosure.is-open .planner-disclosure-shell,
+[data-view='planner'] .task-done-shell.is-open {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+[data-view='planner'] .planner-disclosure-content,
+[data-view='planner'] .task-done-list {
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 200ms var(--ease-standard), transform 220ms var(--ease-standard);
+}
+
+[data-view='planner'] .planner-disclosure.is-open .planner-disclosure-content,
+[data-view='planner'] .task-done-shell.is-open .task-done-list {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-view='planner'] .planner-disclosure-content {
+  padding: 0 var(--space-1) var(--space-5);
+}
+
+[data-view='planner'] .timeline-card {
+  display: block;
+}
+
+[data-view='planner'] .timeline-head {
+  justify-content: flex-end;
+  margin-bottom: var(--space-2);
+}
+
+[data-view='planner'] .planner-clue-empty {
+  padding: var(--space-1) 0 var(--space-2);
+  font-size: 13px;
+}
+
+[data-view='planner'] .task-group-head {
+  min-height: 28px;
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+[data-view='planner'] .planner-list-row,
+[data-view='planner'] .clue-row,
+[data-view='planner'] .event-block {
+  animation: planner-item-enter 200ms var(--ease-standard) both;
+}
+
+[data-view='planner'] .planner-list-row,
+[data-view='planner'] .clue-row {
+  max-height: 128px;
+  transition: opacity 200ms var(--ease-standard), transform 200ms var(--ease-standard),
+    max-height 220ms var(--ease-standard), padding 220ms var(--ease-standard);
+}
+
+[data-view='planner'] .planner-list-row.is-removing,
+[data-view='planner'] .clue-row.is-removing {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(6px);
+}
+
+[data-view='planner'] .event-block.is-removing,
+[data-view='planner'] .di-inner.is-removing {
+  opacity: 0;
+  transform: translateX(6px);
+}
+
+/* Neutral liquid-glass calendar skin using the shared semantic tokens. */
+html body [data-view='planner'] .legacy-calendar-panel {
+  min-width: 0;
+  min-height: 620px;
+  border: 1px solid var(--separator);
+  border-radius: var(--radius-card);
+  background: var(--glass-content);
+  color: var(--label-1);
+  box-shadow: var(--edge-highlight), var(--shadow-card);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+}
+
+html body [data-view='planner'] .legacy-calendar-panel,
+html body [data-view='planner'] .legacy-calendar-panel * {
+  letter-spacing: 0;
+}
+
+html body [data-view='planner'] .legacy-calendar-toolbar {
+  min-height: 66px;
+  padding: var(--space-3) var(--space-4);
+  border-bottom-color: var(--separator);
+  background: transparent;
+}
+
+html body [data-view='planner'] .legacy-calendar-toolbar .title h1 {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--label-1);
+  font: var(--text-title-3);
+}
+
+html body [data-view='planner'] .calendar-title-swap {
+  display: inline-block;
+  animation: planner-title-forward 200ms var(--ease-standard) both;
+}
+
+html body [data-view='planner'] .calendar-title-swap.is-backward {
+  animation-name: planner-title-backward;
+}
+
+html body [data-view='planner'] .legacy-calendar-toolbar .title h1 .yr {
+  color: inherit;
+  font-weight: 600;
+}
+
+html body [data-view='planner'] .legacy-calendar-toolbar .title .sub {
+  color: var(--label-3);
+  font: var(--text-footnote);
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+html body [data-view='planner'] .legacy-calendar-actions {
+  gap: var(--space-2);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .seg {
+  width: 160px;
+  height: 34px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  padding: 2px;
+  overflow: hidden;
+  border: 1px solid var(--separator);
+  border-radius: var(--radius-field);
+  background: var(--fill-1);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .seg button[data-view] {
+  z-index: 1;
+  height: 28px;
+  padding: 0;
+  color: var(--label-3);
+  font: 600 13px/28px var(--font-sans);
+  letter-spacing: 0;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .seg button[data-view].on {
+  color: var(--accent-text);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .seg .pill {
+  left: 2px;
+  top: 2px;
+  bottom: 2px;
+  width: calc((100% - 4px) / 4);
+  height: auto;
+  border-radius: 6px;
+  background: var(--surface-overlay);
+  box-shadow: var(--edge-highlight), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: transform 200ms var(--ease-standard);
+  will-change: transform;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .today-btn,
+html body [data-view='planner'] .legacy-calendar-panel .tb-icon,
+html body [data-view='planner'] .legacy-calendar-panel .seg-mini {
+  min-height: 34px;
+  border-color: var(--separator);
+  border-radius: var(--radius-control);
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .today-btn,
+html body [data-view='planner'] .legacy-calendar-panel .seg-mini button {
+  color: var(--label-2);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .today-btn:hover,
+html body [data-view='planner'] .legacy-calendar-panel .seg-mini button:hover {
+  border-color: var(--separator-strong);
+  background: var(--fill-2);
+  color: var(--label-1);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .tb-icon.pg-on {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+html body [data-view='planner'] .calendar-view-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: planner-view-forward 200ms var(--ease-standard) both;
+}
+
+html body [data-view='planner'] .calendar-view-stage.is-backward {
+  animation-name: planner-view-backward;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .view {
+  flex: 1;
+  min-height: 0;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel #view-month,
+html body [data-view='planner'] .legacy-calendar-panel #view-week,
+html body [data-view='planner'] .legacy-calendar-panel #view-day {
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .m-weekhead {
+  padding: var(--space-2) 0;
+  border-bottom-color: var(--separator-strong);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .m-weekhead div,
+html body [data-view='planner'] .legacy-calendar-panel .mc-wk,
+html body [data-view='planner'] .legacy-calendar-panel .mc-lun,
+html body [data-view='planner'] .legacy-calendar-panel .mc-badge,
+html body [data-view='planner'] .legacy-calendar-panel .dwd,
+html body [data-view='planner'] .legacy-calendar-panel .dlun,
+html body [data-view='planner'] .legacy-calendar-panel .ds-badge,
+html body [data-view='planner'] .legacy-calendar-panel .axis-corner,
+html body [data-view='planner'] .legacy-calendar-panel .ad-label,
+html body [data-view='planner'] .legacy-calendar-panel .t-axis div,
+html body [data-view='planner'] .legacy-calendar-panel .te-meta,
+html body [data-view='planner'] .legacy-calendar-panel .year-head .ylun,
+html body [data-view='planner'] .legacy-calendar-panel .ym-wd,
+html body [data-view='planner'] .legacy-calendar-panel .ym-d,
+html body [data-view='planner'] .legacy-calendar-panel .mlabel,
+html body [data-view='planner'] .legacy-calendar-panel .empty-side {
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .m-weekhead div,
+html body [data-view='planner'] .legacy-calendar-panel .m-weekhead div.we {
+  color: var(--label-3);
+  font-weight: 600;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .m-grid {
+  grid-auto-rows: minmax(96px, 1fr);
+  overflow-x: hidden;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .mc {
+  padding: var(--space-2);
+  border-color: var(--separator);
+  background: transparent;
+  color: var(--label-1);
+  transition: background-color 130ms var(--ease-standard), box-shadow 130ms var(--ease-standard);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .mc:hover {
+  background: var(--fill-1);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .mc.sel {
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 24%, transparent);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .mc-num {
+  min-width: 26px;
+  min-height: 26px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: var(--label-1);
+  font: 600 15px/24px var(--font-sans);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .mc.today .mc-num {
+  border-color: var(--accent);
+  background: transparent;
+  color: var(--accent-text);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .mc-lun.fest,
+html body [data-view='planner'] .legacy-calendar-panel .mc-more,
+html body [data-view='planner'] .legacy-calendar-panel .dcol-head.we .dwd,
+html body [data-view='planner'] .legacy-calendar-panel .dlun.fest,
+html body [data-view='planner'] .legacy-calendar-panel .ym-d.hol,
+html body [data-view='planner'] .legacy-calendar-panel .ym-d.we {
+  color: var(--label-2);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .chip {
+  min-height: 22px;
+  padding: 2px 5px 2px 0;
+  border: 0;
+  border-radius: 4px;
+  background: var(--fill-1);
+  color: var(--label-2);
+  font-size: 12px;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .chip:hover {
+  background: var(--fill-2);
+  color: var(--label-1);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .chip .ctime,
+html body [data-view='planner'] .legacy-calendar-panel .chip .tm {
+  color: var(--label-3);
+  font-size: 12px;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .chip.pill {
+  color: var(--label-2);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .dcol-head {
+  color: var(--label-1);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .dcol-head:hover,
+html body [data-view='planner'] .legacy-calendar-panel .dcol-head.sel {
+  background: var(--accent-soft);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .dnum {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: var(--label-1);
+  font: 600 18px/30px var(--font-sans);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .dcol-head.today .dnum {
+  border-color: var(--accent);
+  background: transparent;
+  color: var(--accent-text);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .ds-badge,
+html body [data-view='planner'] .legacy-calendar-panel .mc-badge {
+  border-color: var(--separator-strong);
+  color: var(--label-3);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .daystrip,
+html body [data-view='planner'] .legacy-calendar-panel .allday-row,
+html body [data-view='planner'] .legacy-calendar-panel .axis-corner,
+html body [data-view='planner'] .legacy-calendar-panel .ad-label,
+html body [data-view='planner'] .legacy-calendar-panel .dcol-head,
+html body [data-view='planner'] .legacy-calendar-panel .allday-cell,
+html body [data-view='planner'] .legacy-calendar-panel .t-axis,
+html body [data-view='planner'] .legacy-calendar-panel .t-col,
+html body [data-view='planner'] .legacy-calendar-panel .t-hr {
+  border-color: var(--separator);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .ad-pill {
+  min-height: 24px;
+  border-radius: 4px;
+  color: var(--label-2);
+  font-size: 12px;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .tev {
+  border: 1px solid var(--separator);
+  border-left: 0;
+  border-radius: 5px;
+  color: var(--label-1);
+  transition: opacity 130ms var(--ease-standard), transform 130ms var(--ease-standard),
+    border-color 130ms var(--ease-standard);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .tev:hover {
+  border-color: var(--separator-strong);
+  transform: translateY(-1px);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .te-title {
+  color: var(--label-1);
+  font-size: 12px;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .nowline {
+  border-top-color: var(--critical);
+  box-shadow: none;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .day-inspector {
+  position: absolute;
+  z-index: 10;
+  inset: 0 0 0 auto;
+  width: min(340px, 100%);
+  max-width: 100%;
+  border-left: 1px solid var(--separator);
+  background: var(--surface-overlay);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(8px);
+  transition: opacity 200ms var(--ease-standard), transform 220ms var(--ease-standard);
+  backdrop-filter: blur(28px) saturate(1.15);
+  -webkit-backdrop-filter: blur(28px) saturate(1.15);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .day-inspector.open {
+  width: min(340px, 100%);
+  max-width: 100%;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .di-inner {
+  width: 100%;
+  max-width: none;
+  opacity: 1;
+  transition: opacity 200ms var(--ease-standard), transform 200ms var(--ease-standard);
+  animation: planner-inspector-enter 220ms var(--ease-standard) both;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .di-map {
+  border-color: var(--separator);
+  background: var(--fill-1);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .pin {
+  color: var(--label-1);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .year-scroll {
+  padding: var(--space-2) var(--space-4) var(--space-5);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .year-block {
+  border-color: var(--separator);
+  border-radius: var(--radius-card);
+  background: var(--fill-1);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .year-head .yh,
+html body [data-view='planner'] .legacy-calendar-panel .year-head .yh.cur,
+html body [data-view='planner'] .legacy-calendar-panel .ym-name b {
+  color: var(--label-1);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .year-head .yh {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .year-months {
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: var(--space-3);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .ym {
+  border-color: var(--separator);
+  border-radius: var(--radius-card);
+  background: var(--surface-2);
+  color: var(--label-1);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .ym:hover {
+  border-color: var(--separator-strong);
+  transform: translateY(-1px);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .ym-d {
+  min-height: 20px;
+  color: var(--label-2);
+}
+
+html body [data-view='planner'] .legacy-calendar-panel .ym-d.today {
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent-text);
+}
+
+[data-view='planner'] .event-block {
+  background: var(--fill-1);
+  border-left-color: var(--label-4);
+  transition: opacity 200ms var(--ease-standard), transform 200ms var(--ease-standard),
+    box-shadow 130ms var(--ease-standard);
+}
+
+[data-view='planner'] .event-block .event-title {
+  color: var(--label-1);
+}
+
+@keyframes planner-title-forward {
+  from { opacity: 0; transform: translateX(6px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes planner-title-backward {
+  from { opacity: 0; transform: translateX(-6px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes planner-view-forward {
+  from { opacity: 0; transform: translateX(6px); clip-path: inset(0 0 0 6px); }
+  to { opacity: 1; transform: translateX(0); clip-path: inset(0); }
+}
+
+@keyframes planner-view-backward {
+  from { opacity: 0; transform: translateX(-6px); clip-path: inset(0 6px 0 0); }
+  to { opacity: 1; transform: translateX(0); clip-path: inset(0); }
+}
+
+@keyframes planner-item-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes planner-inspector-enter {
+  from { opacity: 0; transform: translateX(6px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 760px) {
+  html body [data-view='planner'] .legacy-calendar-panel {
+    min-height: 650px;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-actions {
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel #view-month {
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .m-weekhead,
+  html body [data-view='planner'] .legacy-calendar-panel .m-grid {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .mc {
+    min-width: 0;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .daystrip,
+  html body [data-view='planner'] .legacy-calendar-panel .allday-row,
+  html body [data-view='planner'] .legacy-calendar-panel .timegrid {
+    min-width: 620px;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .timewrap {
+    overflow-x: auto;
+  }
+
+  /* The week number is supplementary and competes with lunar/date metadata
+     once the seven-column grid reaches tablet width. */
+  html body [data-view='planner'] .legacy-calendar-panel .mc-wk {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  [data-view='planner'] .planner-disclosure-head {
+    grid-template-columns: minmax(0, 1fr) auto 18px;
+    gap: var(--space-2);
+  }
+
+  [data-view='planner'] .task-add-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  [data-view='planner'] .timeline-head .section-aside {
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-toolbar {
+    padding: var(--space-3);
+  }
+
+  html body [data-view='planner'] .legacy-calendar-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    width: 100%;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .seg {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .tb-icon {
+    width: 34px;
+    min-width: 34px;
+    padding: 0;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel #view-month,
+  html body [data-view='planner'] .legacy-calendar-panel #view-week,
+  html body [data-view='planner'] .legacy-calendar-panel #view-day {
+    padding-right: var(--space-2);
+    padding-left: var(--space-2);
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel #view-month {
+    overflow: hidden;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .m-weekhead,
+  html body [data-view='planner'] .legacy-calendar-panel .m-grid {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    overflow: hidden;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .m-weekhead div {
+    min-width: 0;
+    padding: 3px 0;
+    font-size: 10px;
+    text-align: center;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .m-grid {
+    grid-auto-rows: minmax(66px, 1fr);
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .mc {
+    min-width: 0;
+    padding: 4px 2px;
+    gap: 2px;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .mc-top,
+  html body [data-view='planner'] .legacy-calendar-panel .mc-date-meta {
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .mc-wk,
+  html body [data-view='planner'] .legacy-calendar-panel .mc-lun,
+  html body [data-view='planner'] .legacy-calendar-panel .mc-badge,
+  html body [data-view='planner'] .legacy-calendar-panel .mc-more,
+  html body [data-view='planner'] .legacy-calendar-panel .chip .bar,
+  html body [data-view='planner'] .legacy-calendar-panel .chip .star,
+  html body [data-view='planner'] .legacy-calendar-panel .chip .ct,
+  html body [data-view='planner'] .legacy-calendar-panel .chip .t,
+  html body [data-view='planner'] .legacy-calendar-panel .chip .ctime,
+  html body [data-view='planner'] .legacy-calendar-panel .chip .tm {
+    display: none;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .mc-num {
+    min-width: 24px;
+    min-height: 24px;
+    font-size: 13px;
+    line-height: 22px;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .mc-events {
+    min-height: 8px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    gap: 3px;
+    overflow: hidden;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .chip,
+  html body [data-view='planner'] .legacy-calendar-panel .chip.pill {
+    width: 6px;
+    min-width: 6px;
+    height: 6px;
+    min-height: 6px;
+    flex: 0 0 6px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--accent);
+    color: transparent;
+  }
+
+  html body [data-view='planner'] .legacy-calendar-panel .year-months {
+    grid-template-columns: minmax(150px, 1fr);
+  }
+}
+
+html[data-reduce-motion] body [data-view='planner'] *,
+html[data-reduce-motion] body [data-view='planner'] *::before,
+html[data-reduce-motion] body [data-view='planner'] *::after {
+  animation-duration: 100ms !important;
+  animation-name: planner-fade-only !important;
+  transition-duration: 0ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body [data-view='planner'] *,
+  html body [data-view='planner'] *::before,
+  html body [data-view='planner'] *::after {
+    animation-duration: 100ms !important;
+    animation-name: planner-fade-only !important;
+    transition-duration: 0ms !important;
+  }
+}
+
+@keyframes planner-fade-only {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

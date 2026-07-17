@@ -1,0 +1,521 @@
+html body [data-view='memory'].memory-page {
+  width: 100%;
+  max-width: 1040px;
+  min-width: 0;
+  gap: 0;
+  letter-spacing: 0;
+}
+
+html body [data-view='memory'] .memory-surface {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--separator);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--glass-content) 88%, var(--surface-2));
+  box-shadow: var(--edge-highlight), 0 18px 48px color-mix(in oklab, var(--label-1) 7%, transparent);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  transition: border-color var(--dur-state) var(--ease-standard), box-shadow var(--dur-state) var(--ease-standard);
+}
+
+html body [data-view='memory'] .memory-surface:hover {
+  border-color: color-mix(in oklab, var(--accent) 14%, var(--separator-strong));
+}
+
+html body [data-view='memory'] .memory-page-head {
+  min-height: 64px;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--separator);
+  background: color-mix(in oklab, var(--surface-2) 56%, transparent);
+}
+
+html body [data-view='memory'] .memory-page-head > div:first-child {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 12px;
+}
+
+html body [data-view='memory'] .memory-page-head h1 {
+  color: var(--label-1);
+  font: var(--text-title-3);
+  letter-spacing: 0;
+}
+
+html body [data-view='memory'] .memory-page-count {
+  color: var(--label-3);
+  font: var(--text-caption);
+  white-space: nowrap;
+}
+
+html body [data-view='memory'] .memory-page-head .page-head-actions {
+  flex: none;
+  padding: 0;
+}
+
+html body [data-view='memory'] .memory-toolbar {
+  display: grid;
+  min-width: 0;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--separator);
+  background: color-mix(in oklab, var(--surface-2) 34%, transparent);
+}
+
+html body [data-view='memory'] .memory-search-row {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+}
+
+html body [data-view='memory'] .memory-toolbar .field {
+  width: 100%;
+  height: 42px;
+  min-width: 0;
+  border-color: var(--separator-strong);
+  background: color-mix(in oklab, var(--fill-1) 74%, transparent);
+  transition: border-color var(--dur-fast) var(--ease-standard), background-color var(--dur-fast) var(--ease-standard),
+    box-shadow var(--dur-fast) var(--ease-standard);
+}
+
+html body [data-view='memory'] .memory-toolbar .field:hover {
+  border-color: color-mix(in oklab, var(--accent) 18%, var(--separator-strong));
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 44%, transparent);
+}
+
+html body [data-view='memory'] .memory-result-count {
+  min-width: 60px;
+  color: var(--label-3);
+  font: var(--text-footnote);
+  text-align: right;
+  white-space: nowrap;
+  animation: memory-fade-in 130ms var(--ease-standard) both;
+}
+
+html body [data-view='memory'] .memory-filter-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+}
+
+html body [data-view='memory'] .memory-filter-select {
+  width: min(220px, 100%);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  color: var(--label-3);
+  font: var(--text-caption);
+}
+
+html body [data-view='memory'] .memory-filter-select select {
+  width: 100%;
+  min-width: 0;
+  height: 34px;
+  padding: 0 30px 0 10px;
+  border: 1px solid var(--separator);
+  border-radius: var(--radius-field);
+  background: var(--fill-1);
+  color: var(--label-1);
+  font: var(--text-footnote);
+  letter-spacing: 0;
+  transition: border-color var(--dur-fast) var(--ease-standard), background-color var(--dur-fast) var(--ease-standard);
+}
+
+html body [data-view='memory'] .memory-filter-select select:hover,
+html body [data-view='memory'] .memory-filter-select select:focus-visible {
+  border-color: var(--separator-strong);
+  background: var(--fill-2);
+}
+
+html body [data-view='memory'] .chip {
+  border-radius: 6px;
+}
+
+html body [data-view='memory'] .memory-list-region.card {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+html body [data-view='memory'] .memory-list-head {
+  display: flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--separator);
+}
+
+html body [data-view='memory'] .memory-list-head > div {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 10px;
+}
+
+html body [data-view='memory'] .memory-list-head h2 {
+  color: var(--label-1);
+  font: var(--text-headline);
+  letter-spacing: 0;
+}
+
+html body [data-view='memory'] .memory-list-head span {
+  color: var(--label-3);
+  font: var(--text-caption);
+  white-space: nowrap;
+}
+
+html body [data-view='memory'] .memory-list-toggle {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  color: var(--label-3);
+  transition: color var(--dur-fast) var(--ease-standard), background-color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard), transform var(--dur-press) var(--ease-standard);
+}
+
+html body [data-view='memory'] .memory-list-toggle:hover {
+  border-color: var(--separator);
+  background: var(--fill-1);
+  color: var(--label-1);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 42%, transparent);
+}
+
+html body [data-view='memory'] .memory-list-toggle:active {
+  transform: scale(0.96);
+}
+
+html body [data-view='memory'] .memory-list-toggle svg {
+  width: 17px;
+  height: 17px;
+  transform: rotate(0deg);
+  transition: transform var(--dur-state) var(--ease-standard);
+}
+
+html body [data-view='memory'] .memory-list-toggle[aria-expanded='false'] svg {
+  transform: rotate(-90deg);
+}
+
+html body [data-view='memory'] .memory-list-collapse {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition: grid-template-rows var(--dur-state) var(--ease-standard), opacity 160ms var(--ease-standard), visibility 0s linear 0s;
+}
+
+html body [data-view='memory'] .memory-list-collapse.is-collapsed {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition-delay: 0s, 0s, var(--dur-state);
+}
+
+html body [data-view='memory'] .memory-list-collapse-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+html body [data-view='memory'] .memory-list-state {
+  min-width: 0;
+  animation: memory-state-in 180ms var(--ease-standard) both;
+}
+
+html body [data-view='memory'] .memory-list-state .empty {
+  min-height: 160px;
+  gap: 6px;
+  padding: 24px 16px;
+}
+
+html body [data-view='memory'] .memory-list {
+  min-width: 0;
+}
+
+html body [data-view='memory'] .memory-row-shell {
+  display: grid;
+  min-width: 0;
+  grid-template-rows: 1fr;
+  border-bottom: 1px solid var(--separator);
+  opacity: 1;
+  animation: memory-row-in 180ms var(--ease-standard) both;
+  transition: grid-template-rows 180ms var(--ease-standard), opacity 150ms var(--ease-standard),
+    border-color 150ms var(--ease-standard);
+}
+
+html body [data-view='memory'] .memory-row-shell:last-child {
+  border-bottom: 0;
+}
+
+html body [data-view='memory'] .memory-row-shell.is-removing {
+  grid-template-rows: 0fr;
+  border-color: transparent;
+  opacity: 0;
+}
+
+html body [data-view='memory'] .memory-row.list-row {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+  overflow: hidden;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  transition: background-color var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard);
+}
+
+html body [data-view='memory'] .memory-row::after {
+  content: '';
+  position: absolute;
+  inset: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  pointer-events: none;
+  transition: border-color var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard);
+}
+
+html body [data-view='memory'] .memory-row:hover,
+html body [data-view='memory'] .memory-row:focus-within {
+  background: color-mix(in oklab, var(--fill-1) 72%, transparent);
+}
+
+html body [data-view='memory'] .memory-row:hover::after,
+html body [data-view='memory'] .memory-row:focus-within::after {
+  border-color: color-mix(in oklab, white 18%, var(--separator));
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 38%, transparent);
+}
+
+html body [data-view='memory'] .memory-row .type-dot {
+  width: 8px;
+  height: 8px;
+  margin-top: 7px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px color-mix(in oklab, currentColor 8%, transparent);
+}
+
+html body [data-view='memory'] .memory-content {
+  overflow: visible;
+  color: var(--label-1);
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+html body [data-view='memory'] .memory-meta {
+  min-width: 0;
+}
+
+html body [data-view='memory'] .memory-meta .chip {
+  min-height: 20px;
+  padding-block: 1px;
+}
+
+html body [data-view='memory'] .memory-row-actions {
+  position: relative;
+  z-index: 1;
+  max-width: 340px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  opacity: 0.64;
+  transition: opacity var(--dur-fast) var(--ease-standard);
+}
+
+html body [data-view='memory'] .memory-row:hover .memory-row-actions,
+html body [data-view='memory'] .memory-row:focus-within .memory-row-actions,
+html body [data-view='memory'] .memory-row-actions.is-confirming {
+  opacity: 1;
+}
+
+html body [data-view='memory'] .memory-delete-confirm {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  padding-left: 8px;
+  color: var(--critical);
+  font: var(--text-caption);
+  animation: memory-confirm-in 130ms var(--ease-standard) both;
+}
+
+html body [data-view='memory'] .memory-delete-confirm > span {
+  white-space: nowrap;
+}
+
+html body [data-view='memory'] .sheet-body .task-add-meta {
+  min-width: 0;
+}
+
+html body [data-view='memory'] .sheet-body .segmented {
+  max-width: 100%;
+}
+
+html body [data-view='memory'] .sheet-body .segmented,
+html body [data-view='memory'] .sheet-body .segmented-selection,
+html body [data-view='memory'] .sheet-body .segmented button {
+  border-radius: 6px;
+}
+
+@keyframes memory-state-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes memory-row-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes memory-confirm-in {
+  from {
+    opacity: 0;
+    transform: translateX(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes memory-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes memory-fade-only {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 700px) {
+  html body [data-view='memory'] .memory-filter-row {
+    align-items: center;
+  }
+
+  html body [data-view='memory'] .memory-row.list-row {
+    grid-template-columns: 10px minmax(0, 1fr);
+  }
+
+  html body [data-view='memory'] .memory-row-actions {
+    width: 100%;
+    max-width: none;
+    grid-column: 2;
+    justify-content: flex-start;
+    opacity: 1;
+  }
+
+  html body [data-view='memory'] .memory-delete-confirm {
+    width: 100%;
+    padding-left: 0;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 420px) {
+  html body [data-view='memory'] .memory-page-head,
+  html body [data-view='memory'] .memory-toolbar,
+  html body [data-view='memory'] .memory-list-head,
+  html body [data-view='memory'] .memory-row.list-row {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  html body [data-view='memory'] .memory-page-head > div:first-child {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  html body [data-view='memory'] .memory-search-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  html body [data-view='memory'] .memory-result-count {
+    min-width: 0;
+    text-align: left;
+  }
+
+  html body [data-view='memory'] .memory-filter-select {
+    width: 100%;
+  }
+
+  html body [data-view='memory'] .memory-list-head > div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  html body [data-view='memory'] .memory-row-actions .btn {
+    max-width: 100%;
+  }
+
+  html body [data-view='memory'] .memory-delete-confirm {
+    flex-wrap: wrap;
+  }
+}
+
+html[data-reduce-motion] body [data-view='memory'] .memory-list-state,
+html[data-reduce-motion] body [data-view='memory'] .memory-row-shell,
+html[data-reduce-motion] body [data-view='memory'] .memory-delete-confirm,
+html[data-reduce-motion] body [data-view='memory'] .memory-result-count {
+  animation: memory-fade-only 90ms linear both !important;
+}
+
+html[data-reduce-motion] body [data-view='memory'] .memory-list-toggle:active,
+html[data-reduce-motion] body [data-view='memory'] .memory-list-toggle svg {
+  transform: none !important;
+}
+
+html[data-reduce-motion] body [data-view='memory'] .memory-list-collapse,
+html[data-reduce-motion] body [data-view='memory'] .memory-row-shell {
+  transition-duration: 90ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body [data-view='memory'] .memory-list-state,
+  html body [data-view='memory'] .memory-row-shell,
+  html body [data-view='memory'] .memory-delete-confirm,
+  html body [data-view='memory'] .memory-result-count {
+    animation: memory-fade-only 90ms linear both !important;
+  }
+
+  html body [data-view='memory'] .memory-list-toggle:active,
+  html body [data-view='memory'] .memory-list-toggle svg {
+    transform: none !important;
+  }
+
+  html body [data-view='memory'] .memory-list-collapse,
+  html body [data-view='memory'] .memory-row-shell {
+    transition-duration: 90ms !important;
+  }
+}
